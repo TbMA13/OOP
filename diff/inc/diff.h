@@ -27,7 +27,7 @@ public:
 };
 
 class leftDiff : public diff {
-private:
+protected:
     double dyDxCalc(const std::function<double(double)> &f) override {
         return static_cast<double>(f(X0) - f(X0 - Dx)) / Dx;
     }
@@ -53,7 +53,7 @@ public:
 };
 
 class rightDiff : public diff {
-private:
+protected:
     double dyDxCalc(const std::function<double(double)> &f) override {
         return static_cast<double>(f(X0 + Dx) - f(X0)) / Dx;
     }
@@ -79,7 +79,7 @@ public:
 };
 
 class middleDiff : public diff {
-private:
+protected:
     double dyDxCalc(const std::function<double(double)> &f) override {
         return static_cast<double>(f(X0 + Dx) - f(X0 - Dx)) / (2 * Dx);
     }
