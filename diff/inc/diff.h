@@ -7,10 +7,13 @@ class diff {
 protected:
     double X0{};
     double Dx{};
-
+    double Accuracy{};
     virtual double dyDxCalc(const std::function<double(double)> &f) { return 0; };
 
 public:
+    [[nodiscard]] double accuracy() const{
+        return Accuracy;
+    }
 
     virtual double calc(const std::function<double(double)> &f, double x0) {
         return 0;
@@ -29,6 +32,7 @@ public:
 class leftDiff : public diff {
 protected:
     double dyDxCalc(const std::function<double(double)> &f) override {
+        Accuracy = Dx;
         return static_cast<double>(f(X0) - f(X0 - Dx)) / Dx;
     }
 
@@ -40,7 +44,7 @@ public:
     }
 
     double calc(const std::function<double(double)> &f, double x0, const std::vector<double> &dotes) override {
-        Dx = (dotes[dotes.size() - 1] - dotes[0]) / (static_cast<double>(dotes.size()) - 1);
+        Dx = (*max_element(dotes.begin(), dotes.end()) - dotes[0]) / (static_cast<double>(dotes.size()) - 1);
         X0 = x0;
         return dyDxCalc(f);
     }
@@ -55,6 +59,7 @@ public:
 class rightDiff : public diff {
 protected:
     double dyDxCalc(const std::function<double(double)> &f) override {
+        Accuracy = Dx;
         return static_cast<double>(f(X0 + Dx) - f(X0)) / Dx;
     }
 
@@ -66,7 +71,7 @@ public:
     }
 
     double calc(const std::function<double(double)> &f, double x0, const std::vector<double> &dotes) override {
-        Dx = (dotes[dotes.size() - 1] - dotes[0]) / (static_cast<double>(dotes.size()) - 1);
+        Dx = (*max_element(dotes.begin(), dotes.end()) - dotes[0]) / (static_cast<double>(dotes.size()) - 1);
         X0 = x0;
         return dyDxCalc(f);
     }
@@ -81,6 +86,7 @@ public:
 class middleDiff : public diff {
 protected:
     double dyDxCalc(const std::function<double(double)> &f) override {
+        Accuracy = Dx * Dx;
         return static_cast<double>(f(X0 + Dx) - f(X0 - Dx)) / (2 * Dx);
     }
 
@@ -92,7 +98,7 @@ public:
     }
 
     double calc(const std::function<double(double)> &f, double x0, const std::vector<double> &dotes) override {
-        Dx = (dotes[dotes.size() - 1] - dotes[0]) / (static_cast<double>(dotes.size()) - 1);
+        Dx = (*max_element(dotes.begin(), dotes.end()) - dotes[0]) / (static_cast<double>(dotes.size()) - 1);
         X0 = x0;
         return dyDxCalc(f);
     }
