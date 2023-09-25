@@ -27,6 +27,9 @@ int main() {
 
     std::cout << right->calc(f, x0) << " - правая производная; " << right->accuracy() << " - точность" << std::endl;
 
+    delete left;
+    delete right;
+    delete middle;
 
     return 0;
 }
