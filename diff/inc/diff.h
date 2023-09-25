@@ -10,7 +10,6 @@ protected:
     double Accuracy{0};
 
     virtual double dyDxCalc(const std::function<double(double)> &f) { return 0; };
-
 public:
     [[nodiscard]] double accuracy() const {
         return Accuracy;
