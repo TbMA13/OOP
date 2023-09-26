@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <vector>
+#include <exception>
 
 class diff {
 protected:
@@ -16,18 +17,41 @@ public:
     }
 
     double calc(const std::function<double(double)> &f, double x0) {
-        Dx = 0.00000000001;
+        Dx = 0.0001;
         X0 = x0;
         return dyDxCalc(f);
     }
 
     double calc(const std::function<double(double)> &f, double x0, const std::vector<double> &dotes) {
+        if (dotes.size() < 2){
+            throw std::exception("В массиве с координатами должно быть хотя бы две различных значения!");
+        }
+        bool redFlag = false;
+        for (int i = 0; i < dotes.size() - 1; i++){
+            for (int j = i + 1; j < dotes.size(); j++){
+                if (dotes[i] != dotes[j]){
+                    redFlag = true;
+                }
+                if (redFlag){
+                    break;
+                }
+            }
+            if (redFlag){
+                break;
+            }
+        }
+        if (!redFlag){
+            throw std::exception("В массиве с координатами должно быть хотя бы две различных значения!");
+        }
         Dx = (*max_element(dotes.begin(), dotes.end()) - dotes[0]) / (static_cast<double>(dotes.size()) - 1);
         X0 = x0;
         return dyDxCalc(f);
     }
 
     double calc(const std::function<double(double)> &f, double x0, double step) {
+        if (step == 0){
+            throw std::exception("Приращение не может быть равным нулю");
+        }
         Dx = step;
         X0 = x0;
         return dyDxCalc(f);
