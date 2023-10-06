@@ -20,15 +20,15 @@ fun main() {
     val test: Array3D<Int> = Array3D(x, y, z)
     arrayFill(test)
 
-//    try {
-//        val tempArray0 = test.getValues0(1)
-//        println(test.getValues0(0))
-//        test.setValues0(0, tempArray0)
-//        println(test.getValues0(0))
-//    }
-//    catch (error: IndexOutOfBoundsException){
-//        println("так делать нельзя, ибо: ${error.message}")
-//    }
+    try {
+        val tempArray0 = test.getValues0(1)
+        println(test.getValues0(0))
+        test.setValues0(0, tempArray0)
+        println(test.getValues0(0))
+    }
+    catch (error: IndexOutOfBoundsException){
+        println("так делать нельзя, ибо: ${error.message}")
+    }
     println("Исходный массив:")
     print("{")
     for (i in 0..<x){
