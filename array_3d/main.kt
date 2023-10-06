@@ -30,14 +30,7 @@ fun main() {
         println("так делать нельзя, ибо: ${error.message}")
     }
     println("Исходный массив:")
-    print("{")
-    for (i in 0..<x){
-        print(test.getValues0(i))
-        if (i != x - 1){
-            print(", ")
-        }
-    }
-    println("}\n")
+    test.print()
     val i = 0
     println("Демонстрация геттеров:")
     print("getValue0($i):  ")

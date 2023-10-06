@@ -25,6 +25,16 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
         return tempArray3D
     }
 
+    fun print(){
+        print("{")
+        for (i in 0..<x){
+            print(this.getValues0(i))
+            if (i != x - 1){
+                print(", ")
+            }
+        }
+        println("}\n")
+    }
     /**Геттеры:*/
     fun getValue(i: Int, j: Int, k: Int): type? {
         if (i >= x || j >= y || k >= z || i < 0 || j < 0 || k < 0) {
