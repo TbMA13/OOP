@@ -11,20 +11,32 @@ fun main() {
             }
         }
     }
-    val tempArray0 = test.getValues0(0)
-    val tempArray1 = test.getValues1(0)
-    val tempArray2 = test.getValues2(0)
-    val tempArray01 = test.getValues01(0, 1)
-    val tempArray02 = test.getValues02(0, 2)
-    val tempArray12 = test.getValues12(1, 2)
+//    try {
+//        val tempArray0 = test.getValues0(1)
+//        println(test.getValues0(0))
+//        test.setValues0(0, tempArray0)
+//        println(test.getValues0(0))
+//    }
+//    catch (error: IndexOutOfBoundsException){
+//        println("так делать нельзя, ибо: ${error.message}")
+//    }
+    println(test.getValues0(0))
+    println(test.getValues0(1))
 
-    val test2 = test.fill(12)
-    for (i in 0..<2) {
-        for (j in 0..<3) {
-            for (k in 0..<4) {
-                print("${test2.getValue(i, j, k)}, ")
-            }
-            println()
-        }
-    }
+    println(test.getValues1(0))
+    println(test.getValues2(0))
+    println()
+    println(test.getValues01(0,1))
+    println(test.getValues02(0,1))
+    println(test.getValues12(0,1))
+    TODO("Демонстрация сеттеров")
+//    val test2 = test.fill(12)
+//    for (i in 0..<2) {
+//        for (j in 0..<3) {
+//            for (k in 0..<4) {
+//                print("${test2.getValue(i, j, k)}, ")
+//            }
+//            println()
+//        }
+//    }
 }

@@ -154,7 +154,7 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
             2 -> {
                 for (i in 0..<x) {
                     for (j in 0..<y) {
-                        if (i < newValues.size && j < newValues[j].size) {
+                        if (i < newValues.size && j < newValues[i].size) {
                             setValue(i, j, x1, newValues[i][j])
                         }
                     }
