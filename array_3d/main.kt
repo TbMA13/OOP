@@ -1,16 +1,25 @@
 package src
-
-fun main() {
+fun arrayFill(currentArray3D: Array3D<Int>){
     var count = 0
-    val test: Array3D<Int> = Array3D(2, 3, 4)
-    for (i in 0..<2) {
-        for (j in 0..<3) {
-            for (k in 0..<4) {
-                test.setValue(i, j, k, count)
+    val x = 2
+    val y = 3
+    val z = 4
+    for (i in 0..<x) {
+        for (j in 0..<y) {
+            for (k in 0..<z) {
+                currentArray3D.setValue(i, j, k, count)
                 count++
             }
         }
     }
+}
+fun main() {
+    val x = 2
+    val y = 3
+    val z = 4
+    val test: Array3D<Int> = Array3D(x, y, z)
+    arrayFill(test)
+
 //    try {
 //        val tempArray0 = test.getValues0(1)
 //        println(test.getValues0(0))
@@ -20,23 +29,79 @@ fun main() {
 //    catch (error: IndexOutOfBoundsException){
 //        println("так делать нельзя, ибо: ${error.message}")
 //    }
-    println(test.getValues0(0))
-    println(test.getValues0(1))
-
-    println(test.getValues1(0))
-    println(test.getValues2(0))
+    println("Исходный массив:")
+    print("{")
+    for (i in 0..<x){
+        print(test.getValues0(i))
+        if (i != x - 1){
+            print(", ")
+        }
+    }
+    println("}\n")
+    val i = 0
+    println("Демонстрация геттеров:")
+    print("getValue0($i):  ")
+    println(test.getValues0(i))
+    print("getValue1($i):  ")
+    println(test.getValues1(i))
+    print("getValue2($i):  ")
+    println(test.getValues2(i))
     println()
-    println(test.getValues01(0,1))
-    println(test.getValues02(0,1))
-    println(test.getValues12(0,1))
-    TODO("Демонстрация сеттеров")
-//    val test2 = test.fill(12)
-//    for (i in 0..<2) {
-//        for (j in 0..<3) {
-//            for (k in 0..<4) {
-//                print("${test2.getValue(i, j, k)}, ")
-//            }
-//            println()
-//        }
-//    }
+    print("getValue01($i): ")
+    println(test.getValues01(i, i))
+    print("getValue02($i): ")
+    println(test.getValues02(i, i))
+    print("getValue12($i): ")
+    println(test.getValues12(i, i))
+    println()
+
+    println("\nДемонстрация сеттеров с заменой на \"9\":")
+    val j = 1
+
+    print("getValues0($i): ")
+    println(test.getValues0(i))
+    print("setValues0($i): ")
+    test.setValues0(i, test.fill(9).getValues0(i))
+    println(test.getValues0(i))
+    println()
+
+    arrayFill(test)
+    print("getValues1($i): ")
+    println(test.getValues1(i))
+    print("setValues1($i): ")
+    test.setValues1(i, test.fill(9).getValues1(i))
+    println(test.getValues1(i))
+    println()
+
+    arrayFill(test)
+    print("getValues2($i): ")
+    println(test.getValues2(i))
+    print("setValues2($i): ")
+    test.setValues2(i, test.fill(9).getValues2(i))
+    println(test.getValues2(i))
+    println()
+
+    arrayFill(test)
+    print("getValues01($i, $j): ")
+    println(test.getValues01(i, j))
+    print("setValues01($i, $j): ")
+    test.setValues01(i, j,  test.fill(9).getValues01(i, j))
+    println(test.getValues01(i, j))
+    println()
+
+    arrayFill(test)
+    print("getValues02($i, $j): ")
+    println(test.getValues02(i, j))
+    print("setValues02($i, $j): ")
+    test.setValues02(i, j,  test.fill(9).getValues02(i, j))
+    println(test.getValues02(i, j))
+    println()
+
+    arrayFill(test)
+    print("getValues12($i, $j): ")
+    println(test.getValues12(i, j))
+    print("setValues12($i, $j): ")
+    test.setValues12(i, j,  test.fill(9).getValues12(i, j))
+    println(test.getValues12(i, j))
+    println()
 }
