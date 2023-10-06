@@ -15,7 +15,7 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
     }
 
     /**К сожалению, в Kotlin отсутствует ключевое слово static.
-     *Замена на companion object может сделать подобие static, но логика будет иной,
+     *Замена на companion object может сделать подобие static, но логика будет иной (необходимо передавать аргументы типа, объекта класса),
      *поэтому метод сделан не статичным*/
     fun fill(value: type?): Array3D<type?> {
         val tempArray3D = Array3D<type?>(x, y, z)
@@ -28,7 +28,7 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
     /**Геттеры:*/
     fun getValue(i: Int, j: Int, k: Int): type? {
         if (i >= x || j >= y || k >= z || i < 0 || j < 0 || k < 0) {
-            throw IndexOutOfBoundsException()
+            throw IndexOutOfBoundsException("Индексы должны быть в пределах массива")
         }
         return mainList[(mainList.size / x) * i + (mainList.size / (x * y)) * j + k]
     }
@@ -120,7 +120,7 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
         return getValuesXX(j, k, 12)
     }
 
-    /*Сеттеры:*/
+    /** Сеттеры:*/
     fun setValue(i: Int, j: Int, k: Int, item: type?) {
         if (i >= x || j >= y || k >= z || i < 0 || j < 0 || k < 0) {
             throw IndexOutOfBoundsException()
@@ -129,18 +129,82 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
 
     }
 
-//    private fun setValuesX(x1: Int, arrayIndex: Int, newValue: MutableList<MutableList<type?>>) {
-//        when (arrayIndex) {
-//            0 -> {
-//
-//            }
-//
-//            1 -> {
-//
-//            }
-//
-//            2 -> {}
-//
-//        }
-//    }
+    private fun setValuesX(x1: Int, arrayIndex: Int, newValues: MutableList<MutableList<type?>>) {
+        when (arrayIndex) {
+            0 -> {
+                for (j in 0..<y) {
+                    for (k in 0..<z) {
+                        if (j < newValues.size && k < newValues[j].size) {
+                            setValue(x1, j, k, newValues[j][k])
+                        }
+                    }
+                }
+            }
+
+            1 -> {
+                for (i in 0..<x) {
+                    for (k in 0..<z) {
+                        if (i < newValues.size && k < newValues[i].size) {
+                            setValue(i, x1, k, newValues[i][k])
+                        }
+                    }
+                }
+            }
+
+            2 -> {
+                for (i in 0..<x) {
+                    for (j in 0..<y) {
+                        if (i < newValues.size && j < newValues[j].size) {
+                            setValue(i, j, x1, newValues[i][j])
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    fun setValues0(i: Int, newValues: MutableList<MutableList<type?>>) {
+        setValuesX(i, 0, newValues)
+    }
+
+    fun setValues1(j: Int, newValues: MutableList<MutableList<type?>>) {
+        setValuesX(j, 1, newValues)
+    }
+
+    fun setValues2(k: Int, newValues: MutableList<MutableList<type?>>) {
+        setValuesX(k, 2, newValues)
+    }
+
+    private fun setValuesXX(x1: Int, x2: Int, arrayIndex: Int, newValues: MutableList<type?>) {
+        when (arrayIndex) {
+            1 -> {
+                for (k in 0..<z) {
+                    setValue(x1, x2, k, newValues[k])
+                }
+            }
+
+            2 -> {
+                for (j in 0..<y) {
+                    setValue(x1, j, x2, newValues[j])
+                }
+            }
+
+            12 -> {
+                for (i in 0..<x){
+                    setValue(i, x1, x2, newValues[i])
+                }
+            }
+        }
+    }
+    fun setValues01(i: Int, j: Int, newValues: MutableList<type?>){
+        setValuesXX(i, j, 1, newValues)
+    }
+    fun setValues02(i: Int, k: Int, newValues: MutableList<type?>){
+        setValuesXX(i, k, 2, newValues)
+    }
+    fun setValues12(j: Int, k: Int, newValues: MutableList<type?>){
+        setValuesXX(j, k, 12, newValues)
+    }
+    
 }
