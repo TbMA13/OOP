@@ -35,6 +35,7 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
         }
         println("}\n")
     }
+
     /**Геттеры:*/
     fun getValue(i: Int, j: Int, k: Int): type? {
         if (i >= x || j >= y || k >= z || i < 0 || j < 0 || k < 0) {
