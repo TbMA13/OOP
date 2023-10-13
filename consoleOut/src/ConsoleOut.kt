@@ -20,23 +20,6 @@ class ConsoleOut {
     init {
         fontSymbolsRead(5)
         fontSymbolsRead(7)
-//        var count = 0
-//        while (count < 26) {
-//            for (value in fontArraySize5[count]) {
-//                println(enumValues<COLOR>()[count % 6].code + value + COLOR.WHITE.code)
-//
-//            }
-//            println()
-//            count++
-//        }
-//        count = 0
-//        while (count < 26) {
-//            for (value in fontArraySize7[count]) {
-//                println(value)
-//            }
-//            println()
-//            count++
-//        }
     }
 
     private fun symbolsSplit(array: MutableList<String>, textSize: Int) {

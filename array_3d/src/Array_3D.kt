@@ -7,11 +7,9 @@ class Array3D<type>(private val x: Int, private val y: Int, private val z: Int) 
     /**  Выполняется при инициализации класса*/
     init {
         require(x > 0 && y > 0 && z > 0) { "Размерность массивов должна быть больше нуля" }
-        while (size > 0) {
+        repeat (size) {
             mainList.add(null)
-            size--
         }
-        size = x * y * z
     }
 
     /**К сожалению, в Kotlin отсутствует ключевое слово static.
