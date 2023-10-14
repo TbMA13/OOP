@@ -13,11 +13,29 @@ enum class COLOR(val code: String) {
     WHITE("\u001B[0m")
 }
 
-class ConsoleOut {
+class ConsoleOut(targetText: String, textSize: Int, var color: COLOR) {
     private val fontArraySize7 = mutableListOf<MutableList<String>>()
     private val fontArraySize5 = mutableListOf<MutableList<String>>()
+    var size = 1
+        set(value) {
+            if (value != 1 && value != 5 && value != 7) {
+                throw NoSuchElementException("Доступны только символы размером: 1, 5, 7")
+            }
+            field = value
+        }
+    var text = ""
+        set(value) {
+            for (currentSymbol in value) {
+                if ((currentSymbol.uppercaseChar().code < 65 || currentSymbol.uppercaseChar().code > 90) && currentSymbol != ' ') {
+                    throw NoSuchElementException("Доступны только символы латинского алфавита")
+                }
+            }
+            field = value
+        }
 
     init {
+        size = textSize
+        text = targetText
         fontSymbolsRead(5)
         fontSymbolsRead(7)
     }
@@ -67,21 +85,18 @@ class ConsoleOut {
         symbolsSplit(tempArray, textSize)
     }
 
-    fun out(targetText: String, textSize: Int, color: COLOR): String {
-        if (textSize != 1 && textSize != 5 && textSize != 7) {
-            throw NoSuchElementException("Доступны только символы размером: 1, 5, 7")
-        }
+    override fun toString(): String {
         var resultString = color.code
-        for (i in 0..<textSize) {
-            for (index in targetText.indices) {
-                val currentSymbolCode = targetText[index].uppercaseChar().code // код символа ASCII
-                when (textSize) {
+        for (i in 0..<size) {
+            for (index in text.indices) {
+                val currentSymbolCode = text[index].uppercaseChar().code // код символа ASCII
+                when (size) {
                     1 -> {
-                        return color.code + targetText + COLOR.WHITE.code
+                        return color.code + text + COLOR.WHITE.code
                     }
 
                     5 -> {
-                        if (targetText[index] == ' ') {
+                        if (text[index] == ' ') {
                             resultString += "   "
                             continue
                         } else if (currentSymbolCode < 65 || currentSymbolCode > 90) {
@@ -92,7 +107,7 @@ class ConsoleOut {
                     }
 
                     7 -> {
-                        if (targetText[index] == ' ') {
+                        if (text[index] == ' ') {
                             resultString += "      "
                             continue
                         } else if (currentSymbolCode < 65 || currentSymbolCode > 90) {
