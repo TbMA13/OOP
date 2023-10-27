@@ -13,8 +13,8 @@ enum class COLOR(val code: String) {
     WHITE("\u001B[0m")
 }
 
-class ConsoleOut(targetText: String, textSize: Int, var color: COLOR) {
-    private val fontArraySize7 = mutableListOf<MutableList<String>>()
+class ConsoleOut(targetText: String, textSize: Int = 1, var color: COLOR = COLOR.WHITE) {
+    private val fontArraySize7 = mutableListOf<MutableList<String>>() // std::vector<std::vector<std::string>>
     private val fontArraySize5 = mutableListOf<MutableList<String>>()
     var size = 1
         set(value) {
@@ -40,36 +40,35 @@ class ConsoleOut(targetText: String, textSize: Int, var color: COLOR) {
         fontSymbolsRead(7)
     }
 
-    private fun symbolsSplit(array: MutableList<String>, textSize: Int) {
-        var startIndex = 0
-        var count = 0
-        for (index in 0..<array[0].length) {
-            if (array[0][index] == ' ') {
+    private fun symbolsSplit(array: MutableList<String>/*массив из строк файла*/, textSize: Int) {
+        var startIndex = 0 // этот индекс в дальнейшем обновляется и подразумевает собой начало очередной буквы
+        for (index in 0..<array[0].length) { // Проходимся по всем элементам первой строки
+            if (array[0][index] == ' ') { // Если в первой строке находим пробел, то проверяем остальные строки на пробел в этом индексе
                 var flag = true
-                for (i in 0..<array.size) {
+                for (i in 0..<array.size) { // array.size - количество строк
                     if (array[i][index] == ' ') {
                         continue
                     } else {
-                        flag = false
+                        flag = false // Нашли символ, отличный от пробела - прервали проверку символом этого индекса на пробелы
                         break
                     }
                 }
-                if (flag) {
-                    val tempBigSymbol = mutableListOf<String>()
-                    for (i in 0..<array.size) {
-                        var tempSubString = ""
-                        for (j in startIndex..index) {
+                if (flag) { // если все-таки все символа одного индекса оказались пробелами...
+                    val tempBigSymbol = mutableListOf<String>() // Создаем большой массив из строк - букву
+                    for (i in 0..<array.size) { // for по всем строкам файла
+                        var tempSubString = "" // этот String - строка буквы
+                        for (j in startIndex..index) { // проходимся от startIndex, который мы каждую новую букву заменяем на
+                            // первый индекс следующей буквы
                             tempSubString += array[i][j]
                         }
-                        tempBigSymbol.add(tempSubString)
+                        tempBigSymbol.add(tempSubString) // добавляем в букву (массив из строк) найденную подстроку
                     }
-                    if (textSize == 7) {
-                        fontArraySize7.add(tempBigSymbol)
+                    if (textSize == 7) { // В зависимости от размера текущего шрифта, добавляю в разные приватные переменные класса найденные буквы
+                        fontArraySize7.add(tempBigSymbol) // fontArraySize7 состоит из массивов строк, то есть включает себя переменные tempBigSymbol
                     } else if (textSize == 5) {
                         fontArraySize5.add(tempBigSymbol)
                     }
-                    startIndex = index + 1
-                    count++
+                    startIndex = index + 1 // меняем startIndex на индекс первого символа следующей буквы
                 } else {
                     continue
                 }
@@ -82,6 +81,7 @@ class ConsoleOut(targetText: String, textSize: Int, var color: COLOR) {
         val reader = BufferedReader(FileReader(file, Charsets.UTF_8))
         val tempArray: MutableList<String> = mutableListOf()
         reader.lines().forEach { tempArray.add(it) }
+        // std::vector<std::string>
         symbolsSplit(tempArray, textSize)
     }
 
