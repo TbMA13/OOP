@@ -6,7 +6,7 @@ import kotlin.math.min
 
 const val CONSOLE_SIZE = 91
 
-open class Command {
+interface Command {
     private fun volumeAndBrightnessCheck(volume: Int, brightness: Int) {
         if (volume < 0 || volume > 100) {
             throw IllegalArgumentException("volume")
@@ -15,7 +15,7 @@ open class Command {
         }
     }
 
-    open fun execute(targetActivity: List<Key>, volume: Int, brightness: Int): Pair<Int, Int> {
+    fun execute(targetActivity: List<Key>, volume: Int, brightness: Int): Pair<Int, Int> {
         var tempVolume = volume
         var tempBrightness = brightness
         try {
@@ -91,21 +91,21 @@ open class Command {
         repeat(CONSOLE_SIZE / 2 - 1 - temp.length) { result += " " }
         result += "|\n"
         repeat(CONSOLE_SIZE) { result += "-" }
-        repeat(1000) { println() }// чистим консоль от мусора
+        repeat(100) { println() } // чистим консоль от мусора
         println(result)
         return Pair(tempVolume, tempBrightness)
     }
 
 }
 
-class StringCommand : Command() {
+class StringCommand : Command {
 
     override fun toString(): String {
         return "PressedKey: "
     }
 }
 
-class VolumeUpCommand : Command() {
+class VolumeUpCommand : Command {
     override fun execute(targetActivity: List<Key>, volume: Int, brightness: Int): Pair<Int, Int> {
         super.execute(targetActivity, volume + 10, brightness)
         return Pair(volume + 10, brightness)
@@ -116,7 +116,7 @@ class VolumeUpCommand : Command() {
     }
 }
 
-class VolumeDownCommand : Command() {
+class VolumeDownCommand : Command {
     override fun execute(targetActivity: List<Key>, volume: Int, brightness: Int): Pair<Int, Int> {
         super.execute(targetActivity, volume - 10, brightness)
         return Pair(volume - 10, brightness)
@@ -127,7 +127,7 @@ class VolumeDownCommand : Command() {
     }
 }
 
-class BrightnessUpCommand : Command() {
+class BrightnessUpCommand : Command {
     override fun execute(targetActivity: List<Key>, volume: Int, brightness: Int): Pair<Int, Int> {
         super.execute(targetActivity, volume, brightness + 10)
         return Pair(volume, brightness + 10)
@@ -138,7 +138,7 @@ class BrightnessUpCommand : Command() {
     }
 }
 
-class BrightnessDownCommand : Command() {
+class BrightnessDownCommand : Command {
     override fun execute(targetActivity: List<Key>, volume: Int, brightness: Int): Pair<Int, Int> {
         super.execute(targetActivity, volume, brightness - 10)
         return Pair(volume, brightness - 10)
@@ -149,7 +149,7 @@ class BrightnessDownCommand : Command() {
     }
 }
 
-class UndoCommand : Command() {
+class UndoCommand : Command {
 
     override fun toString(): String {
         return "Undo"

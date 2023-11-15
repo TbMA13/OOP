@@ -12,14 +12,19 @@ fun main() {
     keyboard.addKey(secondKey)
     keyboard.addKey(volumeKey)
     keyboard.addKey(brightnessKey)
+
     keyboard.pressKey(firstKey)
     Thread.sleep(2000)
+
     keyboard.pressKey(secondKey)
     Thread.sleep(2000)
+
     keyboard.pressKey(volumeKey)
     Thread.sleep(2000)
+
     keyboard.pressKey(brightnessKey)
     Thread.sleep(2000)
+
     keyboard.pressKey(volumeKey)
     Thread.sleep(2000)
 

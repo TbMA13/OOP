@@ -34,8 +34,12 @@ class Keyboard {
 
     fun addActivity(keyName: String, command: Command) {
         val tempKey = Key(keyName, command)
-        lastActivity.add(tempKey)
+        this.addKey(tempKey)
         this.pressKey(tempKey)
+    }
+    fun addActivity(key: Key){
+        this.addKey(key)
+        this.pressKey(key)
     }
 
     fun undo() {
